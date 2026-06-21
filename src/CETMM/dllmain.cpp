@@ -85,7 +85,7 @@ RED4EXT_C_EXPORT void RED4EXT_CALL Query(RED4ext::v1::PluginInfo* aInfo)
     aInfo->author = L"Ming";
     aInfo->version = CETMM_Version();
     aInfo->runtime = RED4EXT_V1_RUNTIME_VERSION_INDEPENDENT;
-    aInfo->sdk = RED4EXT_V1_SDK_VERSION_CURRENT;
+    aInfo->sdk = RED4EXT_V1_SDK_VERSION_1_0_0_COMPAT_0_5_0;
 }
 
 RED4EXT_C_EXPORT uint32_t RED4EXT_CALL Supports()

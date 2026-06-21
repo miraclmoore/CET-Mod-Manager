@@ -52,14 +52,22 @@ function CETMM.Initialize()
   m_locale.Initialize()
 
   registerForEvent("onInit", function()
-  -- init
-  m_backend = require ("modules/backend")
-  m_uninstalled = m_backend.GetUninstall().IsAsiRemoved()
-  if not m_uninstalled then
-    m_backend.GetMods().Scan()
-    m_dofiles.Scan()
-  end
-  m_gui = require ("modules/gui")
+    local ok, err = pcall(function()
+      -- init
+      if CETMMEXT == nil then
+        error("CETMMEXT global is nil — RED4ext plugin may not have loaded correctly")
+      end
+      m_backend = require ("modules/backend")
+      m_uninstalled = m_backend.GetUninstall().IsAsiRemoved()
+      if not m_uninstalled then
+        m_backend.GetMods().Scan()
+        m_dofiles.Scan()
+      end
+      m_gui = require ("modules/gui")
+    end)
+    if not ok then
+      spdlog.error("[CETMM] onInit failed: " .. tostring(err))
+    end
   end)
 end
 
@@ -78,8 +86,10 @@ end
 
 function CETMM.Render()
   registerForEvent("onDraw", function()
-    m_gui.Initialize()
-    m_gui.Render()
+    if m_gui then
+      m_gui.Initialize()
+      m_gui.Render()
+    end
   end)
 end
 
